@@ -5,6 +5,8 @@ import { routingControllersToSpec } from 'routing-controllers-openapi';
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { routingControllerOptions } from '../../config/Routing';
 import { SWAGGER_CONFIG } from '../../config/Env';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 /**
  * Swagger를 사용하도록 한다.
@@ -12,7 +14,8 @@ import { SWAGGER_CONFIG } from '../../config/Env';
  */
 export function useSwagger(app: express.Application) {
   const schemas = validationMetadatasToSchemas({
-    refPointerPrefix: '#/components/schemas',
+    refPointerPrefix: '#/components/schemas/',
+    classTransformerMetadataStorage: defaultMetadataStorage,
   });
 
   const storage = getMetadataArgsStorage();
@@ -21,17 +24,10 @@ export function useSwagger(app: express.Application) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       schemas,
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
     },
     info: {
-      title: 'inDJ',
-      description: 'inDJ API',
+      title: 'PATO',
+      description: 'PATO API',
       version: '1.0.0',
     },
   });

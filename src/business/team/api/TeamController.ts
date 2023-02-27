@@ -1,16 +1,5 @@
 import { TeamService } from '../application/TeamService';
-import {
-  JsonController,
-  Get,
-  Post,
-  HttpCode,
-  QueryParams,
-  Body,
-  Put,
-  Param,
-  Delete,
-  UseBefore,
-} from 'routing-controllers';
+import { JsonController, Get, Post, HttpCode, QueryParams, Body, Put, Param, Delete } from 'routing-controllers';
 import { Paging } from '../../../common/model/PagingModel';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Service, Inject } from 'typedi';
@@ -19,7 +8,6 @@ import { CreateTeamDto, UpdateTeamDto } from '../model/dto/TeamDto';
 import { RESPONSE_CODE } from '../../../config/StatusCode';
 import { ResponseBody } from '../../../common/response/Response';
 import { RESPONSE_DESCRIPTION } from '../../../config/Description';
-import { Auth } from '../../../common/middleware/Auth';
 
 @JsonController('/teams')
 @Service()
@@ -42,7 +30,6 @@ export class TeamController {
     },
   })
   @ResponseSchema(Team, { isArray: true })
-  @UseBefore(Auth.verifyJwt)
   public async getAllTeams(@QueryParams() paging: Paging) {
     return await this.teamService.getAllTeams(paging);
   }
@@ -54,7 +41,6 @@ export class TeamController {
     statusCode: RESPONSE_CODE.SUCCESS.CREATED,
   })
   @ResponseSchema(ResponseBody)
-  @UseBefore(Auth.verifyJwt)
   public async createTeam(@Body() createTeamDto: CreateTeamDto) {
     return await this.teamService.createTeam(createTeamDto);
   }
@@ -71,7 +57,6 @@ export class TeamController {
     },
   })
   @ResponseSchema(ResponseBody)
-  @UseBefore(Auth.verifyJwt)
   public async updateTeam(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
     return await this.teamService.updateTeamById(id, updateTeamDto);
   }
@@ -83,7 +68,6 @@ export class TeamController {
     statusCode: RESPONSE_CODE.SUCCESS.OK,
   })
   @ResponseSchema(ResponseBody)
-  @UseBefore(Auth.verifyJwt)
   public async deleteTeam(@Param('id') id: string) {
     return await this.teamService.deleteTeamById(id);
   }
