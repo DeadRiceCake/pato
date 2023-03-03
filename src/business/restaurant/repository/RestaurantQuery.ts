@@ -1,9 +1,10 @@
-export const searchQuery = {
+export const restaurantQuery = {
   searchRestaurantByName: `
     SELECT 
-      restaurantName,
-      restaurantType,
-      IF(addressStreet = '없음', address, addressStreet) AS address,
+      r.id,
+      r.restaurantName,
+      r.restaurantType,
+      IF(r.addressStreet = '없음', r.address, r.addressStreet) AS address,
       IFNULL((
         SELECT
           ROUND(AVG(rr1.parkingScore), 1)
@@ -23,10 +24,12 @@ export const searchQuery = {
           rr2.restaurantId = r.id
         GROUP BY
           rr2.restaurantId
-      )) AS toiletScore
-  FROM 
-    Restaurant AS r
-  WHERE 
-    r.restaurantName LIKE "%대호%"
+      ), 0) AS toiletScore
+    FROM 
+      Restaurant AS r
+    WHERE 
+      r.restaurantName LIKE "%?%"
+    LIMIT
+      ?, ?
   `,
 };
