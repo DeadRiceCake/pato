@@ -17,10 +17,10 @@ export const SWAGGER_CONFIG = {
 };
 
 export const DB_CONFIG = {
-  DB_HOST: String(process.env.MY_SQL_DB_HOST),
-  DB_USER: String(process.env.MY_SQL_DB_USER),
-  DB_PASSWORD: String(process.env.MY_SQL_DB_PASSWORD),
-  DB_PORT: String(process.env.MY_SQL_DB_PORT),
-  DB_DATABASE: String(process.env.MY_SQL_DB_DATABASE),
-  DB_CONNECTION_LIMIT: Number(process.env.MY_SQL_DB_CONNECTION_LIMIT),
+  DB_HOST: String(process.env.DB_HOST),
+  DB_USER: String(process.env.DB_USER),
+  DB_PASSWORD: String(process.env.DB_PASSWORD),
+  DB_PORT: String(process.env.DB_PORT),
+  DB_DATABASE: String(process.env.DB_DATABASE),
+  DB_CONNECTION_LIMIT: Number(process.env.DB_CONNECTION_LIMIT),
 };

@@ -28,7 +28,7 @@ export const restaurantQuery = {
     FROM 
       Restaurant AS r
     WHERE 
-      r.restaurantName LIKE "%?%"
+      r.restaurantName LIKE ?
     LIMIT
       ?, ?
   `,
