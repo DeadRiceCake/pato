@@ -1,7 +1,12 @@
+import { IMAGE_FILE_PATH } from '../../../config/Constant';
+
 export const restaurantQuery = {
   searchRestaurantByName: `
     SELECT 
       r.id,
+      IF(ri.imageName IS NULL,
+        CONCAT('${IMAGE_FILE_PATH.RESTAURANT}', '${IMAGE_FILE_PATH.DEFAULT}'),
+        CONCAT('${IMAGE_FILE_PATH.RESTAURANT}', ri.imageName)) AS restaurantThumbnail,
       r.restaurantName,
       r.restaurantType,
       IF(r.addressStreet = '없음', r.address, r.addressStreet) AS address,
@@ -26,7 +31,8 @@ export const restaurantQuery = {
           rr2.restaurantId
       ), 0) AS toiletScore
     FROM 
-      Restaurant AS r
+      Restaurant AS r LEFT JOIN
+      Restaurant_Image AS ri ON r.id = ri.restaurantId
     WHERE 
       r.restaurantName LIKE ?
     LIMIT

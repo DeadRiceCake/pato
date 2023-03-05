@@ -5,6 +5,9 @@ export class SearchedRestaurant {
   public id!: number;
 
   @IsString()
+  public restaurantThumbnail!: string;
+
+  @IsString()
   public restaurantName!: string;
 
   @IsString()

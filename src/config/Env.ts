@@ -24,3 +24,7 @@ export const DB_CONFIG = {
   DB_DATABASE: String(process.env.DB_DATABASE),
   DB_CONNECTION_LIMIT: Number(process.env.DB_CONNECTION_LIMIT),
 };
+
+export const AWS_CONFIG = {
+  CDN_URL: String(process.env.AWS_CDN_URL),
+};

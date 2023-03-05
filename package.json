@@ -1,14 +1,14 @@
 {
-  "name": "indj",
+  "name": "pato",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/Server.ts",
     "dev": "cross-env NODE_ENV=development nodemon src/Server.ts",
-    "dev:server": "cross-env NODE_ENV=development npx pm2 start './src/Server.ts' -i 2 --name 'indj' --time --watch",
+    "dev:server": "cross-env NODE_ENV=development npx pm2 start './src/Server.ts' -i 2 --name 'pato' --time --watch",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit",
-    "release": "cross-env NODE_ENV=release npx pm2 start './src/Server.ts' -i 4 --name 'indj' --time --watch",
+    "release": "cross-env NODE_ENV=release npx pm2 start './src/Server.ts' -i 4 --name 'pato' --time --watch",
     "lint": "eslint --ext .ts,.js . --ignore-path .gitignore .",
     "lint:fix": "eslint --fix --ext .ts,.js . --ignore-path .gitignore .",
     "lint-staged": "lint-staged",
@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DeadRiceCake/chatting-service.git"
+    "url": "git+https://github.com/DeadRiceCake/pato.git"
   },
   "keywords": [],
   "author": "The Node Man",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DeadRiceCake/chatting-service/issues"
+    "url": "https://github.com/DeadRiceCake/pato/issues"
   },
-  "homepage": "https://github.com/DeadRiceCake/chatting-service#readme",
+  "homepage": "https://github.com/DeadRiceCake/pato#readme",
   "lint-staged": {
     "./src/**/*.ts": [
       "npm run lint:fix"
