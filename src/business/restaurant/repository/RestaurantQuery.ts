@@ -9,7 +9,7 @@ export const restaurantQuery = {
         CONCAT('${IMAGE_FILE_PATH.RESTAURANT}', ri.imageName)) AS restaurantThumbnail,
       r.restaurantName,
       r.restaurantType,
-      IF(r.addressStreet = '없음', r.address, r.addressStreet) AS address,
+      IF(r.addressStreet IS NULL, r.address, r.addressStreet) AS address,
       IFNULL((
         SELECT
           ROUND(AVG(rr1.parkingScore), 1)
@@ -37,5 +37,19 @@ export const restaurantQuery = {
       r.restaurantName LIKE ?
     LIMIT
       ?, ?
+  `,
+  insertRestaurant: `
+    INSERT INTO
+      Restaurant
+        (addressStreet, restaurantName, locationX, locationY)
+    VALUES
+      (?, ?, ?, ?)
+  `,
+  inserRestaurantConvenience: `
+    INSERT INTO
+      Restaurant_Convenience
+        (restaurantId, isParkingLot, parkingCapacity, isToilet, toiletCleanliness, isSoap, isPaperTowel, reporter)
+    VALUES
+      (?, ?, ?, ?, ?, ?, ?, ?)
   `,
 };

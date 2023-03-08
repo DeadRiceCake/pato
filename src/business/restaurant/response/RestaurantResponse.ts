@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { ValidateNested } from 'class-validator';
+import { IsString, ValidateNested } from 'class-validator';
 import { ResponseBody } from '../../../common/response/Response';
 import { RESPONSE_DESCRIPTION } from '../../../config/Description';
 import { RESPONSE_STATUS } from '../../../config/Status';
@@ -12,5 +12,14 @@ export class SearchRestaurantByNameResponse extends ResponseBody<SearchedRestaur
 
   constructor(searchedRestaurants: SearchedRestaurant[]) {
     super(RESPONSE_STATUS.SUCCESS.OK, RESPONSE_DESCRIPTION.SUCCESS.OK, searchedRestaurants);
+  }
+}
+
+export class RegisterRestaurantConvenienceResponse extends ResponseBody<string> {
+  @IsString()
+  public data!: string;
+
+  constructor() {
+    super(RESPONSE_STATUS.SUCCESS.CREATED, RESPONSE_DESCRIPTION.SUCCESS.CREATED, '식당 제보 완료');
   }
 }

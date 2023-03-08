@@ -51,3 +51,39 @@ export const execute = <T>(query: string, params: string[] | object): Promise<T>
 export const release = () => {
   pool.end();
 };
+
+export const transaction = async <T>(queries: string[], params: string[][] | object[]): Promise<T> => {
+  try {
+    if (!pool) throw new Error('풀이 생성되지 않았습니다. 풀이 생성되었는지 확인해주세요.');
+
+    return new Promise<T>((resolve, reject) => {
+      pool.getConnection((error, connection) => {
+        if (error) reject(error);
+
+        connection.beginTransaction(async (error) => {
+          if (error) reject(error);
+
+          try {
+            for (let i = 0; i < queries.length; i++) {
+              await connection.query(queries[i], params[i]);
+            }
+
+            connection.commit((error) => {
+              if (error) reject(error);
+              else resolve({} as T);
+            });
+          } catch (error) {
+            connection.rollback(() => {
+              reject(error);
+            });
+          } finally {
+            connection.release();
+          }
+        });
+      });
+    });
+  } catch (error) {
+    console.log('[mysql.connector][transaction][Error]: ', error);
+    throw new Error('트랜잭션 실행 실패');
+  }
+};

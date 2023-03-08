@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/Server.ts",
     "dev": "cross-env NODE_ENV=development nodemon src/Server.ts",
-    "dev:server": "cross-env NODE_ENV=development npx pm2 start './src/Server.ts' -i 2 --name 'pato' --time --watch",
+    "dev:server": "cross-env NODE_ENV=development npx pm2 start './src/Server.ts' --name 'pato' --time --watch",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit",
     "release": "cross-env NODE_ENV=release npx pm2 start './src/Server.ts' -i 4 --name 'pato' --time --watch",
     "lint": "eslint --ext .ts,.js . --ignore-path .gitignore .",
