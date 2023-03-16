@@ -6,8 +6,9 @@ import { RESPONSE_CODE } from '../../../config/StatusCode';
 import { RESPONSE_DESCRIPTION } from '../../../config/Description';
 import { RegisterRestaurantConvenienceResponse, SearchRestaurantByNameResponse } from '../response/RestaurantResponse';
 import { RegisterRestaurantConvenienceDto, SearchRestaurantDto } from '../model/dto/RestaurantDto';
+import { RESTAURANT_API_DESCRIPTION } from '../../../../docs/openApi/description/Restaurant';
 
-@JsonController('/restaurants')
+@JsonController('/rt')
 @Service()
 export class RestaurantController {
   private restaurantService: RestaurantService;
@@ -37,6 +38,7 @@ export class RestaurantController {
   @OpenAPI({
     summary: '식당 제보',
     statusCode: RESPONSE_CODE.SUCCESS.CREATED,
+    description: RESTAURANT_API_DESCRIPTION['[post] /'],
   })
   @ResponseSchema(RegisterRestaurantConvenienceResponse)
   public async registerRestaurantConvenience(
