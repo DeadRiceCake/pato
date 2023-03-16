@@ -22,7 +22,7 @@ export class RestaurantController {
     summary: '식당 검색',
     statusCode: RESPONSE_CODE.SUCCESS.OK,
     responses: {
-      [RESPONSE_CODE.SUCCESS.NO_CONTENT]: {
+      [RESPONSE_CODE.SUCCESS.OK]: {
         description: RESPONSE_DESCRIPTION.SUCCESS.NO_CONTENT,
       },
     },
