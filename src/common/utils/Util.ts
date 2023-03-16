@@ -7,4 +7,10 @@ export class Utils {
   public static makeKeywordForLike(keyword: string): string {
     return `%${keyword}%`;
   }
+
+  public static getFileNameFromPath(path: string): string {
+    const pathArray = path.split('/');
+
+    return pathArray[pathArray.length - 1];
+  }
 }

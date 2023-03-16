@@ -23,3 +23,12 @@ export class RegisterRestaurantConvenienceResponse extends ResponseBody<string> 
     super(RESPONSE_STATUS.SUCCESS.CREATED, RESPONSE_DESCRIPTION.SUCCESS.CREATED, '식당 제보 완료');
   }
 }
+
+export class RegisterRestaurantReviewResponse extends ResponseBody<string> {
+  @IsString()
+  public data!: string;
+
+  constructor() {
+    super(RESPONSE_STATUS.SUCCESS.CREATED, RESPONSE_DESCRIPTION.SUCCESS.CREATED, '리뷰 등록 완료');
+  }
+}

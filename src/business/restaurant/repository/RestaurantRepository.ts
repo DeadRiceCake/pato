@@ -19,7 +19,7 @@ export class RestaurantRepository {
     return await execute<DMLResult>(restaurantQuery.insertRestaurant, [address, restaurantName, locationX, locationY]);
   }
 
-  public async inserRestaurantConvenience(
+  public async insertRestaurantConvenience(
     restaurantId: number,
     isParkingLot: number,
     parkingCapacity: number,
@@ -29,7 +29,7 @@ export class RestaurantRepository {
     isPaperTowel: number,
     reporter?: string,
   ): Promise<DMLResult> {
-    return await execute<DMLResult>(restaurantQuery.inserRestaurantConvenience, [
+    return await execute<DMLResult>(restaurantQuery.insertRestaurantConvenience, [
       restaurantId,
       isParkingLot,
       parkingCapacity,
@@ -38,6 +38,22 @@ export class RestaurantRepository {
       isSoap,
       isPaperTowel,
       reporter,
+    ]);
+  }
+
+  public async insertRestaurantReview(
+    restaurantId: number,
+    parkingScore: number,
+    toiletScore: number,
+    content: string,
+    imageName: string | null,
+  ): Promise<DMLResult> {
+    return await execute<DMLResult>(restaurantQuery.insertRestaurantReview, [
+      restaurantId,
+      parkingScore,
+      toiletScore,
+      content,
+      imageName,
     ]);
   }
 }

@@ -27,4 +27,12 @@ export const DB_CONFIG = {
 
 export const AWS_CONFIG = {
   CDN_URL: String(process.env.AWS_CDN_URL),
+  ACCESS_KEY: String(process.env.AWS_ACCESS_KEY),
+  SECRET_KEY: String(process.env.AWS_SECRET_KEY),
+  BUCKET: String(process.env.AWS_S3_BUCKET),
+  REGION: 'ap-northeast-2',
+};
+
+export const BUCKET_PATH_CONFIG = {
+  REVIEW_IMAGE: 'ReviewImage',
 };

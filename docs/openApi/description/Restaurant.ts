@@ -12,4 +12,11 @@ export const RESTAURANT_API_DESCRIPTION = {
   - isPaperTowel: 종이타월 유무 (no: 없음, paperTowel: 종이타월, towel: 타월)
   - reporter: 제보자 이메일
   `,
+
+  '[post] /reviews': `
+  - restaurantId: 식당 아이디
+  - parkingScore: 주차장 점수
+  - toiletScore: 화장실 점수
+  - content: 리뷰 내용
+  `,
 };

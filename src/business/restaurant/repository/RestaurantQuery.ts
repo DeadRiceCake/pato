@@ -38,6 +38,7 @@ export const restaurantQuery = {
     LIMIT
       ?, ?
   `,
+
   insertRestaurant: `
     INSERT INTO
       Restaurant
@@ -45,11 +46,20 @@ export const restaurantQuery = {
     VALUES
       (?, ?, ?, ?)
   `,
-  inserRestaurantConvenience: `
+
+  insertRestaurantConvenience: `
     INSERT INTO
       Restaurant_Convenience
         (restaurantId, isParkingLot, parkingCapacity, isToilet, toiletCleanliness, isSoap, isPaperTowel, reporter)
     VALUES
       (?, ?, ?, ?, ?, ?, ?, ?)
+  `,
+
+  insertRestaurantReview: `
+    INSERT INTO
+      Restaurant_Review
+      (restaurantId, parkingScore, toiletScore, content, imageName)
+    VALUES
+      (?,?,?,?,?)
   `,
 };
