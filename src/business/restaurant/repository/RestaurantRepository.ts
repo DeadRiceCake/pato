@@ -3,6 +3,8 @@ import { execute } from '../../../common/module/Database';
 import { restaurantQuery } from './RestaurantQuery';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
 import { DMLResult } from '../../../common/model/DMLResultModel';
+import { RestaurantDetailDto } from '../model/dto/RestaurantDto';
+import { RestaurantReviewDto } from '../model/dto/RestaurantReviewDto';
 
 @Service()
 export class RestaurantRepository {
@@ -55,5 +57,15 @@ export class RestaurantRepository {
       content,
       imageName,
     ]);
+  }
+
+  public async selectRestaurantDetailByRestautantId(restaurantId: number): Promise<RestaurantDetailDto> {
+    return (
+      await execute<RestaurantDetailDto[]>(restaurantQuery.selectRestaurantDetailByRestautantId, [restaurantId])
+    )[0];
+  }
+
+  public async selectRestaurantReviewsByRestaurantId(restaurantId: number): Promise<RestaurantReviewDto[]> {
+    return await execute<RestaurantReviewDto[]>(restaurantQuery.selectRestaurantReviewsByRestaurantId, [restaurantId]);
   }
 }

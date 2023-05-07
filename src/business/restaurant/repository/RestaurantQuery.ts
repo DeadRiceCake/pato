@@ -62,4 +62,63 @@ export const restaurantQuery = {
     VALUES
       (?,?,?,?,?)
   `,
+
+  selectRestaurantDetailByRestautantId: `
+  SELECT 
+    r.id AS restaurantId,
+    r.restaurantName,
+    r.restaurantType,
+    IF(r.addressStreet IS NULL, r.address, r.addressStreet) AS address,
+    rc.isParkingLot,
+    rc.parkingCapacity,
+    rc.isToilet,
+    rc.toiletCleanliness,
+    rc.isSoap,
+    rc.isPaperTowel,
+    IFNULL((
+      SELECT
+        ROUND(AVG(rr1.parkingScore), 1)
+      FROM
+        Restaurant_Review AS rr1
+      WHERE
+        rr1.restaurantId = r.id
+      GROUP BY
+        rr1.restaurantId
+    ), 0) AS parkingScore,
+    IFNULL((
+      SELECT
+        ROUND(AVG(rr2.toiletScore), 1)
+      FROM
+        Restaurant_Review AS rr2
+      WHERE
+        rr2.restaurantId = r.id
+      GROUP BY
+        rr2.restaurantId
+    ), 0) AS toiletScore
+  FROM 
+    Restaurant AS r 
+  LEFT JOIN
+    Restaurant_Convenience AS rc ON r.id = rc.restaurantId 
+  WHERE 
+    r.id = ?
+  `,
+
+  selectRestaurantReviewsByRestaurantId: `
+  SELECT 
+    rr.id AS reviewId,
+    rr.parkingScore,
+    rr.toiletScore,
+    rr.title,
+    rr.content,
+    IF(rr.imageName IS NULL,
+      NULL,
+      CONCAT('${IMAGE_FILE_PATH.REVIEW}', rr.imageName)) AS imagePath,
+    rr.createdAt
+  FROM 
+    Restaurant_Review AS rr
+  WHERE 
+    rr.restaurantId = ?
+  ORDER BY
+    rr.createdAt DESC
+  `,
 };

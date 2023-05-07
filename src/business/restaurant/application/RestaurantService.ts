@@ -4,14 +4,14 @@ import { NoContentException } from '../../../common/error/NoContentsException';
 import {
   RegisterRestaurantConvenienceResponse,
   RegisterRestaurantReviewResponse,
-  SearchRestaurantByNameResponse,
 } from '../response/RestaurantResponse';
 import { RegisterRestaurantConvenienceDto, SearchRestaurantDto } from '../model/dto/RestaurantDto';
 import { Utils } from '../../../common/utils/Util';
-import { PaperTowel, ParkingLot, Soap, Toilet, ToiletCleanliness } from '../model/enum/RestaurantEnum';
 import { Request } from 'express';
-import { RestaurantReviewDto } from '../model/dto/RestaurantReviewDto';
+import { InsertRestaurantReviewDto, RestaurantReviewDetailDto } from '../model/dto/RestaurantReviewDto';
 import { CustomRequestFile } from '../../../common/model/CustomRequestFileInterface';
+import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
+import { IMAGE_FILE_PATH } from '../../../config/Constant';
 
 @Service()
 export class RestaurantService {
@@ -21,9 +21,7 @@ export class RestaurantService {
     this.restaurantRepository = restaurantRepository;
   }
 
-  public async searchRestaurantByName(
-    searchRestaurantDto: SearchRestaurantDto,
-  ): Promise<SearchRestaurantByNameResponse> {
+  public async searchRestaurantByName(searchRestaurantDto: SearchRestaurantDto): Promise<SearchedRestaurant[]> {
     const searchingRestaurant = new SearchRestaurantDto(
       searchRestaurantDto.name,
       searchRestaurantDto.offset,
@@ -41,7 +39,7 @@ export class RestaurantService {
       throw new NoContentException();
     }
 
-    return new SearchRestaurantByNameResponse(searchedRestaurants);
+    return searchedRestaurants;
   }
 
   public async registerRestaurantConvenience(
@@ -70,20 +68,20 @@ export class RestaurantService {
 
     await this.restaurantRepository.insertRestaurantConvenience(
       insertRestaurantResult.insertId,
-      ParkingLot[isParkingLot],
+      isParkingLot,
       parkingCapacity,
-      Toilet[isToilet],
-      ToiletCleanliness[toiletCleanliness],
-      Soap[isSoap],
-      PaperTowel[isPaperTowel],
+      isToilet,
+      toiletCleanliness,
+      isSoap,
+      isPaperTowel,
       reporter,
     );
 
     return new RegisterRestaurantConvenienceResponse();
   }
 
-  public async registerRestaurantReview(req: Request, restaurantReviewDto: RestaurantReviewDto) {
-    const { restaurantId, parkingScore, toiletScore, reviewContent } = restaurantReviewDto;
+  public async registerRestaurantReview(req: Request, InsertRestaurantReviewDto: InsertRestaurantReviewDto) {
+    const { restaurantId, parkingScore, toiletScore, reviewContent } = InsertRestaurantReviewDto;
     const uploadedFile = req.file ? (req.file as CustomRequestFile) : null;
 
     await this.restaurantRepository.insertRestaurantReview(
@@ -95,5 +93,23 @@ export class RestaurantService {
     );
 
     return new RegisterRestaurantReviewResponse();
+  }
+
+  public async getRestaurantDetails(restaurantId: number): Promise<RestaurantReviewDetailDto> {
+    const restaurantDetails = await this.restaurantRepository.selectRestaurantDetailByRestautantId(restaurantId);
+    const restaurantReviews = await this.restaurantRepository.selectRestaurantReviewsByRestaurantId(restaurantId);
+    const restaurantImages: string[] = [];
+
+    for (const restaurantReview of restaurantReviews) {
+      if (restaurantReview.imagePath) {
+        restaurantImages.push(`${IMAGE_FILE_PATH.REVIEW}${restaurantReview.imagePath}`);
+      }
+
+      if (restaurantImages.length === 5) {
+        break;
+      }
+    }
+
+    return new RestaurantReviewDetailDto(restaurantDetails, restaurantReviews, restaurantImages);
   }
 }

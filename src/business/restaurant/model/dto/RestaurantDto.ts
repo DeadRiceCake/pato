@@ -1,17 +1,5 @@
-import { IsEmail, IsEnum, IsNumber, IsOptional, IsString, Max } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString, Max } from 'class-validator';
 import { Paging } from '../../../../common/model/PagingModel';
-import {
-  PaperTowel,
-  PaperTowelType,
-  ParkingLot,
-  ParkingLotType,
-  Soap,
-  SoapType,
-  Toilet,
-  ToiletCleanliness,
-  ToiletCleanlinessType,
-  ToiletType,
-} from '../enum/RestaurantEnum';
 
 export class SearchRestaurantDto extends Paging {
   @IsString()
@@ -36,26 +24,61 @@ export class RegisterRestaurantConvenienceDto {
   @IsNumber()
   public locationY!: number;
 
-  @IsEnum(ParkingLot)
-  public isParkingLot!: ParkingLotType;
+  @IsNumber()
+  public isParkingLot!: number;
 
   @IsNumber()
   @Max(51)
   public parkingCapacity!: number;
 
-  @IsEnum(Toilet)
-  public isToilet!: ToiletType;
+  @IsNumber()
+  public isToilet!: number;
 
-  @IsEnum(ToiletCleanliness)
-  public toiletCleanliness!: ToiletCleanlinessType;
+  @IsNumber()
+  public toiletCleanliness!: number;
 
-  @IsEnum(Soap)
-  public isSoap!: SoapType;
+  @IsNumber()
+  public isSoap!: number;
 
-  @IsEnum(PaperTowel)
-  public isPaperTowel!: PaperTowelType;
+  @IsNumber()
+  public isPaperTowel!: number;
 
   @IsOptional()
   @IsEmail()
   public reporter?: string;
+}
+
+export class RestaurantDetailDto {
+  @IsNumber()
+  public restaurantId!: number;
+
+  @IsString()
+  public restaurantName!: string;
+
+  @IsString()
+  public restautantType!: string;
+
+  @IsNumber()
+  public isParkingLot!: number | null;
+
+  @IsNumber()
+  public parkingCapacity!: number | null;
+
+  @IsNumber()
+  public isToilet!: number | null;
+
+  @IsNumber()
+  public toiletCleanliness!: number | null;
+
+  @IsNumber()
+  public isSoap!: number | null;
+
+  @IsNumber()
+  public isPaperTowel!: number | null;
+
+  @IsNumber()
+  public parkingScore!: number;
+
+  @IsNumber()
+  public toiletScore!: number;
 }
