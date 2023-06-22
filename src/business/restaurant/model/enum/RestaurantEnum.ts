@@ -1,8 +1,10 @@
-export type ParkingLotType = 'no' | 'free' | 'paid';
+export type ParkingLotType = 'no' | 'free' | 'paid' | 'public' | 'shoulder';
 export enum ParkingLot {
   no = 0,
   free = 1,
   paid = 2,
+  public = 3,
+  shoulder = 4,
 }
 
 export type ToiletType = 'no' | 'insideSeparate' | 'insideShared' | 'outsideSeparate' | 'outsideShared';

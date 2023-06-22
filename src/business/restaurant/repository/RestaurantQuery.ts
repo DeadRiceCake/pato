@@ -121,4 +121,18 @@ export const restaurantQuery = {
   ORDER BY
     rr.createdAt DESC
   `,
+
+  updateRestaurantConvenience: `
+    UPDATE
+      PATO.Restaurant_Convenience
+    SET
+      isParkingLot = ?,
+      parkingCapacity = ?,
+      isToilet = ?,
+      toiletCleanliness = ?,
+      isSoap = ?,
+      isPaperTowel = ?
+    WHERE
+      restaurantId = ?
+  `,
 };

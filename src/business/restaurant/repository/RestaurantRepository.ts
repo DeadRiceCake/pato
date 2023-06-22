@@ -68,4 +68,24 @@ export class RestaurantRepository {
   public async selectRestaurantReviewsByRestaurantId(restaurantId: number): Promise<RestaurantReviewDto[]> {
     return await execute<RestaurantReviewDto[]>(restaurantQuery.selectRestaurantReviewsByRestaurantId, [restaurantId]);
   }
+
+  public async updateRestaurantConvenience(
+    restaurantId: number,
+    isParkingLot: number,
+    parkingCapacity: number,
+    isToilet: number,
+    toiletCleanliness: number,
+    isSoap: number,
+    isPaperTowel: number,
+  ) {
+    return await execute<DMLResult>(restaurantQuery.updateRestaurantConvenience, [
+      isParkingLot,
+      parkingCapacity,
+      isToilet,
+      toiletCleanliness,
+      isSoap,
+      isPaperTowel,
+      restaurantId,
+    ]);
+  }
 }

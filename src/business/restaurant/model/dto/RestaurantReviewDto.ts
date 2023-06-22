@@ -3,14 +3,14 @@ import { IsDate, IsIn, IsNumber, IsString, ValidateNested } from 'class-validato
 import { RestaurantDetailDto } from './RestaurantDto';
 
 export class InsertRestaurantReviewDto {
-  @IsString()
-  public restaurantId!: string;
+  @IsNumber()
+  public restaurantId!: number;
 
-  @IsIn(['1', '2', '3', '4', '5'])
-  public parkingScore!: string;
+  @IsIn([1, 2, 3, 4, 5])
+  public parkingScore!: number;
 
-  @IsIn(['1', '2', '3', '4', '5'])
-  public toiletScore!: string;
+  @IsIn([1, 2, 3, 4, 5])
+  public toiletScore!: number;
 
   @IsString()
   public reviewContent!: string;

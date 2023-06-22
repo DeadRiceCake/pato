@@ -9,6 +9,7 @@ import {
   ContentType,
   Req,
   Param,
+  Put,
 } from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Service, Inject } from 'typedi';
@@ -16,7 +17,11 @@ import { RestaurantService } from '../application/RestaurantService';
 import { RESPONSE_CODE } from '../../../config/StatusCode';
 import { RESPONSE_DESCRIPTION } from '../../../config/Description';
 import { RegisterRestaurantConvenienceResponse } from '../response/RestaurantResponse';
-import { RegisterRestaurantConvenienceDto, SearchRestaurantDto } from '../model/dto/RestaurantDto';
+import {
+  RegisterRestaurantConvenienceDto,
+  SearchRestaurantDto,
+  UpdateRestaurantDetailDto,
+} from '../model/dto/RestaurantDto';
 import { RESTAURANT_API_DESCRIPTION } from '../../../../docs/openApi/description/Restaurant';
 import { uploadImageToS3 } from '../../../common/module/S3';
 import { BUCKET_PATH_CONFIG } from '../../../config/Env';
@@ -24,6 +29,7 @@ import { Request } from 'express';
 import { InsertRestaurantReviewDto } from '../model/dto/RestaurantReviewDto';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
 import { RestaurantReviewDetailDto } from '../model/dto/RestaurantReviewDto';
+import { ResponseBody } from '../../../common/response/Response';
 
 @JsonController('/rt')
 @Service()
@@ -92,5 +98,17 @@ export class RestaurantController {
   @ResponseSchema(RestaurantReviewDetailDto)
   public async getRestaurantDetails(@Param('restaurantId') restaurantId: number) {
     return await this.restaurantService.getRestaurantDetails(restaurantId);
+  }
+
+  @HttpCode(RESPONSE_CODE.SUCCESS.OK)
+  @Put('/')
+  @OpenAPI({
+    summary: '식당 상세 정보 수정',
+    statusCode: RESPONSE_CODE.SUCCESS.OK,
+    description: RESTAURANT_API_DESCRIPTION['[put] /'],
+  })
+  @ResponseSchema(ResponseBody)
+  public async updateRestaurantDetails(@Body() updateRestaurantDetailDto: UpdateRestaurantDetailDto) {
+    return await this.restaurantService.updateRestaurantDetails(updateRestaurantDetailDto);
   }
 }

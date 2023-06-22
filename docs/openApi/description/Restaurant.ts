@@ -66,4 +66,15 @@ export const RESTAURANT_API_DESCRIPTION = {
 
   - restaurantImages: 식당 이미지
   `,
+
+  '[put] /': `
+  ## request body
+  - restaurantId: 식당 아이디
+  - isParkingLot: 주차장 유무 (0: 없음, 1: 있음(무료), 2: 있음(유료), 3:없음(공영주차장), 4:없음(갓길주차))
+  - parkingCapacity: 주차 가능 차량 수
+  - isToilet: 화장실 유무 (0: 없음, 1: 내부 남녀 구분, 2: 내부 남녀 공용, 3: 외부 남녀 구분, 4: 외부 남녀 공용)
+  - toiletCleanliness: 화장실 청결도 (0: 낮음, 1: 보통, 2: 높음)
+  - isSoap: 비누 유무 (0: 없음, 1: 비누, 2: 핸드워시)
+  - isPaperTowel: 종이타월 유무 (0: 없음, 1: 종이타월, 2: 타월)
+  `,
 };

@@ -82,3 +82,26 @@ export class RestaurantDetailDto {
   @IsNumber()
   public toiletScore!: number;
 }
+
+export class UpdateRestaurantDetailDto {
+  @IsNumber()
+  public restaurantId!: number;
+
+  @IsNumber()
+  public isParkingLot!: number;
+
+  @IsNumber()
+  public parkingCapacity!: number;
+
+  @IsNumber()
+  public isToilet!: number;
+
+  @IsNumber()
+  public toiletCleanliness!: number;
+
+  @IsNumber()
+  public isSoap!: number;
+
+  @IsNumber()
+  public isPaperTowel!: number;
+}
