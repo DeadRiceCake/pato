@@ -5,13 +5,21 @@ import {
   RegisterRestaurantConvenienceResponse,
   RegisterRestaurantReviewResponse,
 } from '../response/RestaurantResponse';
-import { RegisterRestaurantConvenienceDto, SearchRestaurantDto } from '../model/dto/RestaurantDto';
+import {
+  RegisterRestaurantConvenienceDto,
+  SearchRestaurantDto,
+  UpdateRestaurantDetailDto,
+} from '../model/dto/RestaurantDto';
 import { Utils } from '../../../common/utils/Util';
 import { Request } from 'express';
 import { InsertRestaurantReviewDto, RestaurantReviewDetailDto } from '../model/dto/RestaurantReviewDto';
 import { CustomRequestFile } from '../../../common/model/CustomRequestFileInterface';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
 import { IMAGE_FILE_PATH } from '../../../config/Constant';
+import { CustomError } from '../../../common/error/CustomError';
+import { RESPONSE_CODE } from '../../../config/StatusCode';
+import { RESPONSE_STATUS } from '../../../config/Status';
+import { ResponseBody } from '../../../common/response/Response';
 
 @Service()
 export class RestaurantService {
@@ -111,5 +119,30 @@ export class RestaurantService {
     }
 
     return new RestaurantReviewDetailDto(restaurantDetails, restaurantReviews, restaurantImages);
+  }
+
+  public async updateRestaurantDetails(updateRestaurantDetailDto: UpdateRestaurantDetailDto) {
+    const { restaurantId, isParkingLot, parkingCapacity, isToilet, toiletCleanliness, isSoap, isPaperTowel } =
+      updateRestaurantDetailDto;
+
+    const updatedResaurant = await this.restaurantRepository.updateRestaurantConvenience(
+      restaurantId,
+      isParkingLot,
+      parkingCapacity,
+      isToilet,
+      toiletCleanliness,
+      isSoap,
+      isPaperTowel,
+    );
+
+    if (!updatedResaurant.changedRows && !updatedResaurant.affectedRows) {
+      throw new CustomError(
+        RESPONSE_CODE.CLIENT_ERROR.NOT_FOUND,
+        RESPONSE_STATUS.CLIENT_ERROR.NOT_FOUND,
+        '해당 식당이 없습니다.',
+      );
+    }
+
+    return new ResponseBody(RESPONSE_STATUS.SUCCESS.OK, '식당 정보가 수정되었습니다.');
   }
 }
