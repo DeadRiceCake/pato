@@ -122,17 +122,19 @@ export const restaurantQuery = {
     rr.createdAt DESC
   `,
 
-  updateRestaurantConvenience: `
-    UPDATE
+  upsertRestaurantConvenience: `
+    INSERT INTO
       PATO.Restaurant_Convenience
-    SET
+      (restaurantId, isParkingLot, parkingCapacity, isToilet, toiletCleanliness, isSoap, isPaperTowel)
+    VALUES
+      (?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY
+    UPDATE
       isParkingLot = ?,
       parkingCapacity = ?,
       isToilet = ?,
       toiletCleanliness = ?,
       isSoap = ?,
       isPaperTowel = ?
-    WHERE
-      restaurantId = ?
   `,
 };
