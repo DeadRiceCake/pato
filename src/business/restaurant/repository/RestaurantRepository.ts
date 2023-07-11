@@ -69,7 +69,7 @@ export class RestaurantRepository {
     return await execute<RestaurantReviewDto[]>(restaurantQuery.selectRestaurantReviewsByRestaurantId, [restaurantId]);
   }
 
-  public async updateRestaurantConvenience(
+  public async upsertRestaurantConvenience(
     restaurantId: number,
     isParkingLot: number,
     parkingCapacity: number,
@@ -78,14 +78,20 @@ export class RestaurantRepository {
     isSoap: number,
     isPaperTowel: number,
   ) {
-    return await execute<DMLResult>(restaurantQuery.updateRestaurantConvenience, [
+    return await execute<DMLResult>(restaurantQuery.upsertRestaurantConvenience, [
+      restaurantId,
       isParkingLot,
       parkingCapacity,
       isToilet,
       toiletCleanliness,
       isSoap,
       isPaperTowel,
-      restaurantId,
+      isParkingLot,
+      parkingCapacity,
+      isToilet,
+      toiletCleanliness,
+      isSoap,
+      isPaperTowel,
     ]);
   }
 }

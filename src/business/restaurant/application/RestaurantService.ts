@@ -125,7 +125,7 @@ export class RestaurantService {
     const { restaurantId, isParkingLot, parkingCapacity, isToilet, toiletCleanliness, isSoap, isPaperTowel } =
       updateRestaurantDetailDto;
 
-    const updatedResaurant = await this.restaurantRepository.updateRestaurantConvenience(
+    const updatedResaurant = await this.restaurantRepository.upsertRestaurantConvenience(
       restaurantId,
       isParkingLot,
       parkingCapacity,
