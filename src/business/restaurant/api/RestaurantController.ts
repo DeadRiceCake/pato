@@ -30,6 +30,7 @@ import { InsertRestaurantReviewDto } from '../model/dto/RestaurantReviewDto';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
 import { RestaurantReviewDetailDto } from '../model/dto/RestaurantReviewDto';
 import { ResponseBody } from '../../../common/response/Response';
+import { RESTAURANT_REQUEST_BODY } from '../../../../docs/openApi/requestBody/ResautantRequestBody';
 
 @JsonController('/rt')
 @Service()
@@ -78,6 +79,7 @@ export class RestaurantController {
     summary: '식당 리뷰 등록',
     statusCode: RESPONSE_CODE.SUCCESS.CREATED,
     description: RESTAURANT_API_DESCRIPTION['[post] /reviews'],
+    requestBody: RESTAURANT_REQUEST_BODY['[post] /reviews'],
   })
   @ResponseSchema(RegisterRestaurantConvenienceResponse)
   @UseBefore(uploadImageToS3(BUCKET_PATH_CONFIG.REVIEW_IMAGE).single('reviewImage'))

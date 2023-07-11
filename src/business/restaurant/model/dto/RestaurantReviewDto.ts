@@ -1,15 +1,15 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsIn, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { RestaurantDetailDto } from './RestaurantDto';
 
 export class InsertRestaurantReviewDto {
-  @IsNumber()
+  @IsNotEmpty()
   public restaurantId!: number;
 
-  @IsIn([0, 1, 2, 3, 4, 5])
+  @IsNotEmpty()
   public parkingScore!: number;
 
-  @IsIn([0, 1, 2, 3, 4, 5])
+  @IsNotEmpty()
   public toiletScore!: number;
 
   @IsString()
