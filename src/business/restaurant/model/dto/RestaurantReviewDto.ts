@@ -6,10 +6,10 @@ export class InsertRestaurantReviewDto {
   @IsNumber()
   public restaurantId!: number;
 
-  @IsIn([1, 2, 3, 4, 5])
+  @IsIn([0, 1, 2, 3, 4, 5])
   public parkingScore!: number;
 
-  @IsIn([1, 2, 3, 4, 5])
+  @IsIn([0, 1, 2, 3, 4, 5])
   public toiletScore!: number;
 
   @IsString()
