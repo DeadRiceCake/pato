@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsDate, IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator';
 import { RestaurantDetailDto } from './RestaurantDto';
+import { IMAGE_FILE_PATH } from '../../../../config/Constant';
 
 export class InsertRestaurantReviewDto {
   @IsNotEmpty()
@@ -32,11 +33,29 @@ export class RestaurantReviewDto {
   @IsString()
   public content!: string;
 
-  @IsString()
-  public imagePath!: string | null;
+  @IsArray()
+  public images!: string[];
 
   @IsDate()
   public createdAt!: Date;
+
+  constructor(
+    reviewId: number,
+    parkingScore: number,
+    toiletScore: number,
+    title: string,
+    content: string,
+    images: string | null,
+    createdAt: Date,
+  ) {
+    this.reviewId = reviewId;
+    this.parkingScore = parkingScore;
+    this.toiletScore = toiletScore;
+    this.title = title;
+    this.content = content;
+    this.images = images ? images.split(',').map((image) => `${IMAGE_FILE_PATH.REVIEW}${image}`) : [];
+    this.createdAt = createdAt;
+  }
 }
 
 export class RestaurantReviewDetailDto {

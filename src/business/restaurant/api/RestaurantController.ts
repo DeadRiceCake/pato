@@ -82,7 +82,7 @@ export class RestaurantController {
     requestBody: RESTAURANT_REQUEST_BODY['[post] /reviews'],
   })
   @ResponseSchema(RegisterRestaurantConvenienceResponse)
-  @UseBefore(uploadImageToS3(BUCKET_PATH_CONFIG.REVIEW_IMAGE).single('reviewImage'))
+  @UseBefore(uploadImageToS3(BUCKET_PATH_CONFIG.REVIEW_IMAGE).array('reviewImage', 5))
   public async registerRestaurantReview(
     @Req() req: Request,
     @Body() InsertRestaurantReviewDto: InsertRestaurantReviewDto,

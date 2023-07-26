@@ -2,6 +2,7 @@ import { AWS_CONFIG } from './../../config/Env';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
+import crypto from 'crypto';
 
 const s3Client = new S3Client({
   region: AWS_CONFIG.REGION,
@@ -26,7 +27,7 @@ export const uploadImageToS3 = (uploadDirectory: string, fileName?: string) => {
       key: (req, file, callback) => {
         const uploadFileName = fileName
           ? `${fileName}.${file.originalname.split('.')[1]}`
-          : `${Date.now()}.${file.originalname.split('.')[1]}`;
+          : `${crypto.randomUUID().replace(/-/gi, '')}.${file.originalname.split('.')[1]}`;
 
         callback(null, `${uploadDirectory}/${uploadFileName}`);
       },
