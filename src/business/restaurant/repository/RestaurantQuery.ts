@@ -5,7 +5,7 @@ export const restaurantQuery = {
     SELECT 
       r.id,
       IF(ri.imageName IS NULL,
-        CONCAT('${IMAGE_FILE_PATH.RESTAURANT}', '${IMAGE_FILE_PATH.DEFAULT}'),
+        '',
         CONCAT('${IMAGE_FILE_PATH.RESTAURANT}', ri.imageName)) AS restaurantThumbnail,
       r.restaurantName,
       r.restaurantType,
