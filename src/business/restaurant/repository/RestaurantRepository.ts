@@ -4,7 +4,7 @@ import { restaurantQuery } from './RestaurantQuery';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
 import { DMLResult } from '../../../common/model/DMLResultModel';
 import { RestaurantDetailDto } from '../model/dto/RestaurantDto';
-import { RestaurantReviewDto } from '../model/dto/RestaurantReviewDto';
+import { RestaurantReviewDao } from '../model/dao/RestaurantDao';
 
 @Service()
 export class RestaurantRepository {
@@ -65,8 +65,8 @@ export class RestaurantRepository {
     )[0];
   }
 
-  public async selectRestaurantReviewsByRestaurantId(restaurantId: number): Promise<RestaurantReviewDto[]> {
-    return await execute<RestaurantReviewDto[]>(restaurantQuery.selectRestaurantReviewsByRestaurantId, [restaurantId]);
+  public async selectRestaurantReviewsByRestaurantId(restaurantId: number): Promise<RestaurantReviewDao[]> {
+    return await execute<RestaurantReviewDao[]>(restaurantQuery.selectRestaurantReviewsByRestaurantId, [restaurantId]);
   }
 
   public async upsertRestaurantConvenience(

@@ -61,7 +61,7 @@ export const RESTAURANT_API_DESCRIPTION = {
     - toiletScore: 화장실 점수
     - title: 리뷰 제목
     - content: 리뷰 내용
-    - imagePaths: 리뷰 이미지 경로
+    - images: 리뷰 이미지 경로
     - createdAt: 리뷰 생성 시간
 
   - restaurantImages: 식당 이미지

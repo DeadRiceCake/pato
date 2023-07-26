@@ -110,9 +110,9 @@ export const restaurantQuery = {
     rr.toiletScore,
     rr.title,
     rr.content,
-    IF(rr.imageName IS NULL,
-      NULL,
-      CONCAT('${IMAGE_FILE_PATH.REVIEW}', rr.imageName)) AS imagePath,
+    IFNULL(
+      rr.imageName,
+      NULL) AS imageNames,
     rr.createdAt
   FROM 
     Restaurant_Review AS rr

@@ -12,14 +12,18 @@ import {
 } from '../model/dto/RestaurantDto';
 import { Utils } from '../../../common/utils/Util';
 import { Request } from 'express';
-import { InsertRestaurantReviewDto, RestaurantReviewDetailDto } from '../model/dto/RestaurantReviewDto';
+import {
+  InsertRestaurantReviewDto,
+  RestaurantReviewDetailDto,
+  RestaurantReviewDto,
+} from '../model/dto/RestaurantReviewDto';
 import { CustomRequestFile } from '../../../common/model/CustomRequestFileInterface';
 import { SearchedRestaurant } from '../model/sqlResult/RestaurantSqlResult';
-import { IMAGE_FILE_PATH } from '../../../config/Constant';
 import { CustomError } from '../../../common/error/CustomError';
 import { RESPONSE_CODE } from '../../../config/StatusCode';
 import { RESPONSE_STATUS } from '../../../config/Status';
 import { ResponseBody } from '../../../common/response/Response';
+import { RestaurantReviewDao } from '../model/dao/RestaurantDao';
 
 @Service()
 export class RestaurantService {
@@ -90,14 +94,21 @@ export class RestaurantService {
 
   public async registerRestaurantReview(req: Request, InsertRestaurantReviewDto: InsertRestaurantReviewDto) {
     const { restaurantId, parkingScore, toiletScore, reviewContent } = InsertRestaurantReviewDto;
-    const uploadedFile = req.file ? (req.file as CustomRequestFile) : null;
+    const uploadedFiles = req.files ? (req.files as CustomRequestFile[]) : null;
+
+    const uploadedFileNames: string[] = [];
+    if (uploadedFiles) {
+      uploadedFiles.forEach((uploadedFile) => {
+        uploadedFileNames.push(Utils.getFileNameFromPath(uploadedFile.key));
+      });
+    }
 
     await this.restaurantRepository.insertRestaurantReview(
       Number(restaurantId),
       Number(parkingScore),
       Number(toiletScore),
       reviewContent,
-      uploadedFile ? Utils.getFileNameFromPath(uploadedFile.key) : null,
+      uploadedFiles ? uploadedFileNames.join() : null,
     );
 
     return new RegisterRestaurantReviewResponse();
@@ -105,15 +116,28 @@ export class RestaurantService {
 
   public async getRestaurantDetails(restaurantId: number): Promise<RestaurantReviewDetailDto> {
     const restaurantDetails = await this.restaurantRepository.selectRestaurantDetailByRestautantId(restaurantId);
-    const restaurantReviews = await this.restaurantRepository.selectRestaurantReviewsByRestaurantId(restaurantId);
+    const restaurantReviewDaos = await this.restaurantRepository.selectRestaurantReviewsByRestaurantId(restaurantId);
+    const restaurantReviews = restaurantReviewDaos.map((restaurantReviewDao: RestaurantReviewDao) => {
+      return new RestaurantReviewDto(
+        restaurantReviewDao.reviewId,
+        restaurantReviewDao.parkingScore,
+        restaurantReviewDao.toiletScore,
+        restaurantReviewDao.title,
+        restaurantReviewDao.content,
+        restaurantReviewDao.imageNames,
+        restaurantReviewDao.createdAt,
+      );
+    });
+
     const restaurantImages: string[] = [];
 
     for (const restaurantReview of restaurantReviews) {
-      if (restaurantReview.imagePath) {
-        restaurantImages.push(`${IMAGE_FILE_PATH.REVIEW}${restaurantReview.imagePath}`);
+      if (restaurantReview.images.length) {
+        restaurantImages.push(...restaurantReview.images);
       }
 
-      if (restaurantImages.length === 5) {
+      if (restaurantImages.length >= 5) {
+        restaurantImages.splice(5);
         break;
       }
     }
